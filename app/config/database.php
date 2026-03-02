@@ -1,10 +1,10 @@
 <?php
 class Database
 {
-  private $host = "localhost";
-  private $db_name = "nama_database_mu";
+  private $host = "db"; // Sesuaikan dengan nama service database di docker-compose.yml
+  private $db_name = "php-docker";
   private $username = "root";
-  private $password = "";
+  private $password = "password1";
   public $conn;
 
   public function getConnection()

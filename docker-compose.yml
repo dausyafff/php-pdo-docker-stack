@@ -5,8 +5,8 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_DATABASE: toko_db
-      MYSQL_ROOT_PASSWORD: password_aman
+      MYSQL_DATABASE: php-docker
+      MYSQL_ROOT_PASSWORD: password1
     ports:
       - "3306:3306"
 
