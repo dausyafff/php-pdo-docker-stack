@@ -1,8 +1,19 @@
 <?php
-
-
 require_once __DIR__ . "/../app/config/database.php";
 require_once __DIR__ . "/../app/model/Produk.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+  if (isset($_POST['tambah'])) {
+    $produkModel->create($_POST['nama_barang']);
+    header("Location: ?url=produk");
+  }
+
+  if (isset($_POST['update'])) {
+    $produkModel->update($_POST['no'], $_POST['nama_barang']);
+    header("Location: ?url=produk");
+  }
+}
 
 $database = new Database();
 $db = $database->getConnection();
