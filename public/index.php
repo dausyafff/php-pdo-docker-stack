@@ -2,6 +2,12 @@
 require_once __DIR__ . "/../app/config/database.php";
 require_once __DIR__ . "/../app/model/Produk.php";
 
+$database = new Database();
+$db = $database->getConnection();
+$produkModel = new Produk($db);
+
+// Simple Clean URL Logic
+$request = $_GET['url'] ?? 'home';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (isset($_POST['tambah'])) {
@@ -14,13 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ?url=produk");
   }
 }
-
-$database = new Database();
-$db = $database->getConnection();
-$produkModel = new Produk($db);
-
-// Simple Clean URL Logic
-$request = $_GET['url'] ?? 'home';
+// Handle Delete
+if ($request == "delete") {
+  $produkModel->delete($_GET['id']);
+  header("Location: ?url=produk");
+  exit;
+}
 ?>
 
 
@@ -66,35 +71,16 @@ $request = $_GET['url'] ?? 'home';
 <body>
   <div class="container">
     <nav>
-      <a href="home">Beranda</a> | <a href="produk">Data Produk</a>
+      <a href="/home">Beranda</a> | <a href="../app/views/produk.php">Data Produk</a>
     </nav>
     <hr>
 
     <?php if ($request == 'produk'): ?>
-      <form method="POST">
-        <input type="text" name="nama_barang" placeholder="Nama Barang" required>
-        <button type="submit">Tambah</button>
-      </form>
-      <h2>Daftar Produk</h2>
-      <table>
-        <tr>
-          <th>No</th>
-          <th>Nama Barang</th>
-        </tr>
-        <?php
-        $data = $produkModel->readAll();
-        while ($row = $data->fetch(PDO::FETCH_ASSOC)):
-        ?>
-          <tr>
-            <td><?= $row['no'] ?></td>
-            <td><?= $row['nama_barang'] ?></td>
-          </tr>
-        <?php endwhile; ?>
-      </table>
+      <!-- masih kosong ya -->
     <?php else: ?>
-      <h1>Selamat Datang di App Docker-PDO</h1>
-      <p>Sistem ini berjalan di atas container Docker dengan Apache dan MySQL.</p>
     <?php endif; ?>
+    <h1>Selamat Datang di App Docker-PDO</h1>
+    <p>Sistem ini berjalan di atas container Docker dengan Apache dan MySQL.</p>
   </div>
 </body>
 
